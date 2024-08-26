@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
+  password String
+}
+
+// Every Forge will have a Trigger
+model Forge {
+  id        String  @id @default(uuid())
+  triggerId String
+  Trigger   Trigger? 
+}
+
+model Trigger {
+  id        String            @id @default(uuid())
+  forgeId   String            @unique
+  TriggerId String
+  type      AvailableTrigger  @relation(fields: [typeId], references: [id]) 
+  forge     Forge             @relation(fields: [forgeId], references: [id])
+  // Foreign key fields
+  typeId    String
+}
+
+model AvailableTrigger {
+  id       String     @id @default(uuid())
+  name     String
+  triggers Trigger[]
+}
