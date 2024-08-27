@@ -19,6 +19,7 @@ model Forge {
   id        String  @id @default(uuid())
   triggerId String
   Trigger   Trigger? 
+  actions   Actions[]
 }
 
 model Trigger {
@@ -31,8 +32,25 @@ model Trigger {
   typeId    String
 }
 
+model Actions {
+  id      String @id @default(uuid())
+  ForgeID String 
+  Forge   Forge @relation(fields: [ForgeID], references: [id])  
+  actionId  String
+  type     AvailableAction @relation(fields: [actionId], references: [id])
+}
+
+model AvailableAction {
+id       String @id @default(uuid())
+name     String
+image    String
+actions  Actions[]
+}
+
 model AvailableTrigger {
-  id       String     @id @default(uuid())
-  name     String
+  id       String @id @default(uuid())
+  name     String 
+  image    String
   triggers Trigger[]
 }
+  
