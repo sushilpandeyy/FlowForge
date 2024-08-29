@@ -20,6 +20,7 @@ model Forge {
   triggerId String
   Trigger   Trigger? 
   actions   Actions[]
+  ForgeRuns ForgeRun[] 
 }
 
 model Trigger {
@@ -54,3 +55,17 @@ model AvailableTrigger {
   triggers Trigger[]
 }
   
+model ForgeRun {
+  id String @id @default(uuid())
+  ForgeID String
+  Forge   Forge @relation(fields: [ForgeID], references: [id]) 
+  ForgeRunOffset ForgeRunOffset[] 
+  metadata Json
+}  
+
+model ForgeRunOffset{
+  id String @id @default(uuid())
+  ForgeRunId String 
+  ForgeRun ForgeRun @relation(fields: [ForgeRunId], references: [id])
+  metadata Json
+}
