@@ -15,7 +15,7 @@ app.post("/hooks/catch/:userId/:forgeID", async (req, res)=> {
     const body = req.body;
 
     await client.$transaction(async tx=>{
-        const run = await client.forgeRun.create({
+        const run = await tx.forgeRun.create({
             data:{
                 ForgeID: forgeID,
                 metadata: body
@@ -23,7 +23,7 @@ app.post("/hooks/catch/:userId/:forgeID", async (req, res)=> {
         })
         console.log("you are right")
 
-        await client.forgeRunOffset.create({
+        await tx.forgeRunOffset.create({
             data:{
                 ForgeRunId: run.id,
                 metadata: body
