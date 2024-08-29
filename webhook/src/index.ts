@@ -21,8 +21,6 @@ app.post("/hooks/catch/:userId/:forgeID", async (req, res)=> {
                 metadata: body
             }
         })
-        console.log("you are right")
-
         await tx.forgeRunOffset.create({
             data:{
                 ForgeRunId: run.id,
